@@ -35,23 +35,23 @@ create_conoha_dns_record(){
   -d '{ "name": "'${CNH_DNS_NAME}'", "type": "'${CNH_DNS_TYPE}'", "data": "'${CNH_DNS_DATA}'", "ttl": 60 }'
 }
 
-# get_conoha_dns_record_id(){
-#   curl -sS https://dns-service.${CNH_REGION}.conoha.io/v1/domains/${CNH_DOMAIN_ID}/records \
-#   -X GET \
-#   -H "Accept: application/json" \
-#   -H "Content-Type: application/json" \
-#   -H "X-Auth-Token: ${CNH_TOKEN}" \
-#   | jq -r '.records[] | select(.name == "'${CNH_DNS_NAME}'" and .data == "'${CNH_DNS_DATA}'") | .id'
-# }
+get_conoha_dns_record_id(){
+  curl -sS https://dns-service.${CNH_REGION}.conoha.io/v1/domains/${CNH_DOMAIN_ID}/records \
+  -X GET \
+  -H "Accept: application/json" \
+  -H "Content-Type: application/json" \
+  -H "X-Auth-Token: ${CNH_TOKEN}" \
+  | jq -r '.records[] | select(.name == "'${CNH_DNS_NAME}'" and .data == "'${CNH_DNS_DATA}'") | .id'
+}
 
-# delete_conoha_dns_record(){
-#   local delete_id=$1
-#   curl -sS https://dns-service.${CNH_REGION}.conoha.io/v1/domains/${CNH_DOMAIN_ID}/records/${delete_id} \
-#   -X DELETE \
-#   -H "Accept: application/json" \
-#   -H "Content-Type: application/json" \
-#   -H "X-Auth-Token: ${CNH_TOKEN}"
-# }
+delete_conoha_dns_record(){
+  local delete_id=$1
+  curl -sS https://dns-service.${CNH_REGION}.conoha.io/v1/domains/${CNH_DOMAIN_ID}/records/${delete_id} \
+  -X DELETE \
+  -H "Accept: application/json" \
+  -H "Content-Type: application/json" \
+  -H "X-Auth-Token: ${CNH_TOKEN}"
+}
 
 # ----------- #
 # GET A TOKEN #
