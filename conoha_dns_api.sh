@@ -17,23 +17,23 @@ get_conoha_token(){
   | grep -i "x-subject-token" | awk '{print $2}'
 }
 
-# get_conoha_domain_id(){
-#   curl -sS https://dns-service.${CNH_REGION}.conoha.io/v1/domains \
-#   -X GET \
-#   -H "Accept: application/json" \
-#   -H "Content-Type: application/json" \
-#   -H "X-Auth-Token: ${CNH_TOKEN}" \
-#   | jq -r '.domains[] | select(.name == "'${CNH_DNS_DOMAIN_ROOT}'") | .id'
-# }
+get_conoha_domain_id(){
+  curl -sS https://dns-service.${CNH_REGION}.conoha.io/v1/domains \
+  -X GET \
+  -H "Accept: application/json" \
+  -H "Content-Type: application/json" \
+  -H "X-Auth-Token: ${CNH_TOKEN}" \
+  | jq -r '.domains[] | select(.name == "'${CNH_DNS_DOMAIN_ROOT}'") | .id'
+}
 
-# create_conoha_dns_record(){
-#   curl -sS https://dns-service.${CNH_REGION}.conoha.io/v1/domains/${CNH_DOMAIN_ID}/records \
-#   -X POST \
-#   -H "Accept: application/json" \
-#   -H "Content-Type: application/json" \
-#   -H "X-Auth-Token: ${CNH_TOKEN}" \
-#   -d '{ "name": "'${CNH_DNS_NAME}'", "type": "'${CNH_DNS_TYPE}'", "data": "'${CNH_DNS_DATA}'", "ttl": 60 }'
-# }
+create_conoha_dns_record(){
+  curl -sS https://dns-service.${CNH_REGION}.conoha.io/v1/domains/${CNH_DOMAIN_ID}/records \
+  -X POST \
+  -H "Accept: application/json" \
+  -H "Content-Type: application/json" \
+  -H "X-Auth-Token: ${CNH_TOKEN}" \
+  -d '{ "name": "'${CNH_DNS_NAME}'", "type": "'${CNH_DNS_TYPE}'", "data": "'${CNH_DNS_DATA}'", "ttl": 60 }'
+}
 
 # get_conoha_dns_record_id(){
 #   curl -sS https://dns-service.${CNH_REGION}.conoha.io/v1/domains/${CNH_DOMAIN_ID}/records \
@@ -61,4 +61,4 @@ CNH_TOKEN=$(get_conoha_token)
 # ----------------- #
 # GET THE DOMAIN ID #
 # ----------------- #
-# CNH_DOMAIN_ID=$(get_conoha_domain_id)
+CNH_DOMAIN_ID=$(get_conoha_domain_id)
