@@ -37,4 +37,6 @@ source ${SCRIPT_PATH}/conoha_dns_api.sh
 create_conoha_dns_record
 
 # DNS 伝播待ち
-sleep 25
+if [[ ${CERTBOT_REMAINING_CHALLENGES} -eq 0 ]]; then
+  sleep 120
+fi
