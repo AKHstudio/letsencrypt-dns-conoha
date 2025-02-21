@@ -36,8 +36,4 @@ source ${SCRIPT_PATH}/conoha_dns_api.sh
 # ----------------- #
 create_conoha_dns_record
 
-
-
-if [[ $CERTBOT_REMAINING_CHALLENGES -eq 0 ]]; then
-  sleep 120
-fi
+sleep 120
