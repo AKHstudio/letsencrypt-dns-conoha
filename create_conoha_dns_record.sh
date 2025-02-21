@@ -4,11 +4,10 @@
 # VARIABLE #
 # -------- #
 # ----- certbot ----- #
-# CERTBOT_DOMAIN=akh-studio.com
-# CERTBOT_VALIDATION=1234567890
+# CERTBOT_DOMAIN
+# CERTBOT_VALIDATION
 
-echo "CERTBOT_DOMAIN: ${CERTBOT_DOMAIN}"
-echo "CERTBOT_VALIDATION: ${CERTBOT_VALIDATION}"
+
 
 # ----- script ----- # 
 SCRIPT_NAME=$(basename $0)
