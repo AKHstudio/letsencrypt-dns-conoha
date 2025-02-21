@@ -4,8 +4,8 @@
 # VARIABLE #
 # -------- #
 # ----- certbot ----- #
-# CERTBOT_DOMAIN
-# CERTBOT_VALIDATION
+# CERTBOT_DOMAIN=akh-studio.com
+# CERTBOT_VALIDATION=1234567890
 
 # ----- script ----- # 
 SCRIPT_NAME=$(basename $0)
