@@ -31,7 +31,7 @@ create_conoha_dns_record
 
 while true; do
   # 現在のTXTレコードを取得
-  RESULT=$(dig +short TXT _acme-challenge.$CERTBOT_DOMAIN | tr -d '"')
+  RESULT=$(dig @8.8.8.8 +short TXT _acme-challenge.$CERTBOT_DOMAIN | tr -d '"')
 
   # 期待する値と一致しているか確認
   if [[ "$RESULT" == "$CERTBOT_VALIDATION" ]]; then
