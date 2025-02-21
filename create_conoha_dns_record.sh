@@ -40,31 +40,4 @@ create_conoha_dns_record
 
 if [[ $CERTBOT_REMAINING_CHALLENGES -eq 0 ]]; then
   sleep 120
-
-  # 最大試行回数 (120秒)
-  MAX_RETRIES=120
-  RETRY_COUNT=0
-  
-  while [[ $RETRY_COUNT -lt $MAX_RETRIES ]]; do
-    echo "[$RETRY_COUNT/$MAX_RETRIES] DNS 伝播確認中..."
-
-    # `dig` で取得した TXT レコードが空でなければ OK
-    RESULT=$(dig @8.8.8.8 +short TXT _acme-challenge.${CERTBOT_DOMAIN})
-
-    if [[ -z "$RESULT" ]]; then
-      echo "❌ DNS 伝播中..."
-      RETRY_COUNT=$(expr $RETRY_COUNT + 1)
-      sleep 1
-      continue
-    fi
-
-    echo "✅ DNS 伝播完了: $RESULT"
-    break
-  done
-
-  # タイムアウト処理
-  if [[ $RETRY_COUNT -ge $MAX_RETRIES ]]; then
-    echo "❌ DNS 伝播が確認できませんでした。"
-    exit 1
-  fi
 fi
