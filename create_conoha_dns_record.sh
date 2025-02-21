@@ -51,13 +51,15 @@ if [[ $CERTBOT_REMAINING_CHALLENGES -eq 0 ]]; then
     # `dig` で取得した TXT レコードが空でなければ OK
     RESULT=$(dig +short TXT _acme-challenge.${CERTBOT_DOMAIN})
 
-    if [[ -n "$RESULT" ]]; then
-      echo "✅ DNS 伝播完了: $RESULT"
-      break
+    if [[ -z "$RESULT" ]]; then
+      echo "❌ DNS 伝播中..."
+      ((RETRY_COUNT++))
+      sleep 1
+      continue
     fi
 
-    sleep 1
-    ((RETRY_COUNT++))
+    echo "✅ DNS 伝播完了: $RESULT"
+    break
   done
 
   # タイムアウト処理
