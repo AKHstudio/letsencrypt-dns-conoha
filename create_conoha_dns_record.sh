@@ -40,7 +40,7 @@ for ((i=1; i<=MAX_ATTEMPTS; i++)); do
     echo "🔍 DNS 設定を確認中... ($CHECK_DNS_DOMAIN)"
 
     # dig コマンドを実行し、標準エラーも表示する
-    DIG_RESULT=$(dig +short TXT "$CHECK_DNS_DOMAIN" 2>&1)
+    DIG_RESULT=$(dig +short TXT "$CHECK_DNS_DOMAIN" @8.8.8.8)
 
     echo "🔍 dig の結果: $DIG_RESULT"
 
@@ -55,13 +55,13 @@ for ((i=1; i<=MAX_ATTEMPTS; i++)); do
     # 現在の DNS 設定を取得
     CURRENT_VALUE=$(echo "$DIG_RESULT" | tr -d '"' | tr -d '[:space:]' | tr -d '\r')
     # 期待する DNS 設定を取得
-    CNH_DNS_DATA=$(echo "$CNH_DNS_DATA" | tr -d '"' | tr -d '[:space:]'| tr -d '\r')
+    CHECK_VALUE=$(echo "$CNH_DNS_DATA" | tr -d '"' | tr -d '[:space:]'| tr -d '\r')
 
     echo "🔍 現在の値: $CURRENT_VALUE"
-    echo "✅ 期待する値: $CNH_DNS_DATA"
+    echo "✅ 期待する値: $CHECK_VALUE"
 
     # 期待する値と一致するか確認
-    if [[ "$CURRENT_VALUE" == "$CNH_DNS_DATA" ]]; then
+    if [[ "$CURRENT_VALUE" == "$CHECK_VALUE" ]]; then
         echo "✅ DNS 設定が確認されました！ ($CURRENT_VALUE)"
         exit 0
     fi
