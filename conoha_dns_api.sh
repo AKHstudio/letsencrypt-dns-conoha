@@ -1,5 +1,8 @@
 #!/bin/bash
 
+set -e # エラーが出たらスクリプトを終了する
+set -u # 未定義変数があったらスクリプトを終了する
+
 # -------- #
 # VARIABLE #
 # -------- #
@@ -19,11 +22,10 @@ get_conoha_token(){
 
 get_conoha_domain_id(){
   curl -sS https://dns-service.${CNH_REGION}.conoha.io/v1/domains \
-  -X GET \
   -H "Accept: application/json" \
   -H "Content-Type: application/json" \
   -H "X-Auth-Token: ${CNH_TOKEN}" \
-  | jq -r '.domains[] | select(.name == "'${CNH_DNS_DOMAIN_ROOT}'") | .id'
+  | jq -r '.domains[] | select(.name == "'${CNH_DNS_DOMAIN_ROOT}'") | .uuid'
 }
 
 create_conoha_dns_record(){
@@ -32,7 +34,7 @@ create_conoha_dns_record(){
   -H "Accept: application/json" \
   -H "Content-Type: application/json" \
   -H "X-Auth-Token: ${CNH_TOKEN}" \
-  -d '{ "name": "'${CNH_DNS_NAME}'", "type": "'${CNH_DNS_TYPE}'", "data": "'${CNH_DNS_DATA}'", "ttl": 60 }'
+  -d '{ "name": "'${CNH_DNS_NAME}'", "type": "'${CNH_DNS_TYPE}'", "data": "'${CNH_DNS_DATA}'", "ttl": 30 }'
 }
 
 get_conoha_dns_record_id(){
@@ -41,7 +43,7 @@ get_conoha_dns_record_id(){
   -H "Accept: application/json" \
   -H "Content-Type: application/json" \
   -H "X-Auth-Token: ${CNH_TOKEN}" \
-  | jq -r '.records[] | select(.name == "'${CNH_DNS_NAME}'" and .data == "'${CNH_DNS_DATA}'") | .id'
+  | jq -r '.records[] | select(.name == "'${CNH_DNS_NAME}'" and .data == "'${CNH_DNS_DATA}'") | .uuid'
 }
 
 delete_conoha_dns_record(){
@@ -56,9 +58,13 @@ delete_conoha_dns_record(){
 # ----------- #
 # GET A TOKEN #
 # ----------- #
-CNH_TOKEN=$(get_conoha_token)
+CNH_TOKEN=$(echo $(get_conoha_token) | tr -d '\r')
+
+# echo "CNH_TOKEN: ${CNH_TOKEN}"
 
 # ----------------- #
 # GET THE DOMAIN ID #
 # ----------------- #
 CNH_DOMAIN_ID=$(get_conoha_domain_id)
+
+# echo "CNH_DOMAIN_ID: ${CNH_DOMAIN_ID}"
