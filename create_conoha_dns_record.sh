@@ -40,7 +40,7 @@ for ((i=1; i<=MAX_ATTEMPTS; i++)); do
     echo "🔍 DNS 設定を確認中... ($CHECK_DNS_DOMAIN)"
 
     # dig コマンドを実行し、標準エラーも表示する
-    DIG_RESULT=$(dig +short TXT "$CHECK_DNS_DOMAIN" @8.8.8.8)
+    DIG_RESULT=$(dig +short TXT "$CHECK_DNS_DOMAIN" @1.1.1.1)
 
     echo "🔍 dig の結果: $DIG_RESULT"
 
