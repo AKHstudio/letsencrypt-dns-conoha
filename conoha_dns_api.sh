@@ -34,7 +34,7 @@ create_conoha_dns_record(){
   -H "Accept: application/json" \
   -H "Content-Type: application/json" \
   -H "X-Auth-Token: ${CNH_TOKEN}" \
-  -d '{ "name": "'${CNH_DNS_NAME}'", "type": "'${CNH_DNS_TYPE}'", "data": "'${CNH_DNS_DATA}'", "ttl": 30 }'
+  -d '{ "name": "'${CNH_DNS_NAME}'", "type": "'${CNH_DNS_TYPE}'", "data": "'${CNH_DNS_DATA}'", "ttl": 60 }'
 }
 
 get_conoha_dns_record_id(){
