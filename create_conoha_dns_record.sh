@@ -27,3 +27,5 @@ source ${SCRIPT_PATH}/conoha_dns_api.sh
 # CREATE DNS RECORD # 
 # ----------------- #
 create_conoha_dns_record
+
+sleep 20
