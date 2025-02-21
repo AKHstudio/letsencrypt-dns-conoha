@@ -7,6 +7,13 @@
 # ----- certbot ----- #
 # CERTBOT_DOMAIN
 # CERTBOT_VALIDATION
+# CERTBOT_REMAINING_CHALLENGES
+# CERTBOT_ALL_DOMAINS
+
+echo "CERTBOT_DOMAIN: ${CERTBOT_DOMAIN}"
+echo "CERTBOT_VALIDATION: ${CERTBOT_VALIDATION}"
+echo "CERTBOT_REMAINING_CHALLENGES: ${CERTBOT_REMAINING_CHALLENGES}"
+echo "CERTBOT_ALL_DOMAINS: ${CERTBOT_ALL_DOMAINS}"
 
 # ----- script ----- # 
 SCRIPT_NAME=$(basename $0)
@@ -29,16 +36,5 @@ source ${SCRIPT_PATH}/conoha_dns_api.sh
 # ----------------- #
 create_conoha_dns_record
 
-while true; do
-  # 現在のTXTレコードを取得
-  RESULT=$(dig @8.8.8.8 +short TXT _acme-challenge.$CERTBOT_DOMAIN | tr -d '"')
-
-  # 期待する値と一致しているか確認
-  if [[ "$RESULT" == "$CERTBOT_VALIDATION" ]]; then
-    echo "✅️ TXTレコードが確認できました！"
-    break
-  fi
-
-  echo "⌛️ まだ確認できません。10秒後に再試行します..."
-  sleep 10
-done
+# DNS 伝播待ち
+sleep 25
