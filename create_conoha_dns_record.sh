@@ -30,4 +30,23 @@ source ${SCRIPT_PATH}/conoha_dns_api.sh
 # ----------------- #
 create_conoha_dns_record
 
-sleep 20
+INTERVAL=30  # チェック間隔（秒）
+MAX_ATTEMPTS=40  # 最大試行回数（例: 40回 = 最大20分）
+
+echo "🔍 DNSが反映されるのを待機中... ($CNH_DNS_NAME)"
+echo "期待する値: $CNH_DNS_DATA"
+
+for ((i=1; i<=MAX_ATTEMPTS; i++)); do
+    CURRENT_VALUE=$(dig +short TXT "$CNH_DNS_NAME" | tr -d '"' | grep "$CNH_DNS_DATA")
+
+    if [[ -n "$CURRENT_VALUE" ]]; then
+        echo "✅ DNS 設定が確認されました！ ($CURRENT_VALUE)"
+        exit 0
+    fi
+
+    echo "⏳ $i 回目の試行: まだ反映されていません..."
+    sleep $INTERVAL
+done
+
+echo "❌ DNS が指定時間内に反映されませんでした。もう少し待って試してください。"
+exit 1
