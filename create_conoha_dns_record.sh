@@ -49,11 +49,11 @@ if [[ $CERTBOT_REMAINING_CHALLENGES -eq 0 ]]; then
     echo "[$RETRY_COUNT/$MAX_RETRIES] DNS 伝播確認中..."
 
     # `dig` で取得した TXT レコードが空でなければ OK
-    RESULT=$(dig +short TXT _acme-challenge.${CERTBOT_DOMAIN})
+    RESULT=$(dig @8.8.8.8 +short TXT _acme-challenge.${CERTBOT_DOMAIN})
 
     if [[ -z "$RESULT" ]]; then
       echo "❌ DNS 伝播中..."
-      ((RETRY_COUNT++))
+      RETRY_COUNT=$(expr $RETRY_COUNT + 1)
       sleep 1
       continue
     fi
