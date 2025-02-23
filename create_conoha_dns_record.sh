@@ -1,11 +1,19 @@
 #!/bin/bash
 
+
 # -------- #
 # VARIABLE #
 # -------- #
 # ----- certbot ----- #
 # CERTBOT_DOMAIN
 # CERTBOT_VALIDATION
+# CERTBOT_REMAINING_CHALLENGES
+# CERTBOT_ALL_DOMAINS
+
+echo "CERTBOT_DOMAIN: ${CERTBOT_DOMAIN}"
+echo "CERTBOT_VALIDATION: ${CERTBOT_VALIDATION}"
+echo "CERTBOT_REMAINING_CHALLENGES: ${CERTBOT_REMAINING_CHALLENGES}"
+echo "CERTBOT_ALL_DOMAINS: ${CERTBOT_ALL_DOMAINS}"
 
 # ----- script ----- # 
 SCRIPT_NAME=$(basename $0)
@@ -27,3 +35,5 @@ source ${SCRIPT_PATH}/conoha_dns_api.sh
 # CREATE DNS RECORD # 
 # ----------------- #
 create_conoha_dns_record
+
+sleep 120
